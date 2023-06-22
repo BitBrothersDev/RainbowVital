@@ -1,0 +1,51 @@
+%h1 Supplement Details
+
+.card
+  .card-header
+    %strong Supplement:
+    = @supplement.name
+
+.card
+  .card-header
+    %strong Add Brand Supplement
+
+.card-body
+  = form_with(url: rainbow_vital.brand_supplements_path, method: :post, local: true) do |f|
+    .form-group
+      %label.form-label(for="brand_id") Select Brand
+      = f.collection_select :brand_id, @brands, :id, :name, {}, {class: "form-control"}
+
+    .form-group
+      %label.form-label(for="supplement_id") Supplement
+      = f.collection_select :supplement_id, @supplements, :id, :name, {selected: @supplement.id}, {readonly: true, class: "form-control"}
+
+    .form-group
+      %label.form-label(for="unit_id") Select Unit
+      = f.collection_select :unit_id, @units, :id, :name, {}, {class: "form-control"}
+
+    = f.submit "Add Brand Supplement", class: "btn btn-primary mt-3"
+
+  %h4.mb-4 Brands
+  .accordion{id: "brandsAccordion"}
+    - @supplement_brands.each_with_index do |brand_supplement, index|
+      .card
+        .card-header{id: "brand-#{index}"}
+          %h5.mb-0
+            %button.btn.btn-link{ "data-toggle" => "collapse", "data-target" => "#collapseBrand-#{index}", "aria-expanded" => "true", "aria-controls" => "collapseBrand-#{index}" }
+              = brand_supplement.rainbow_vital_brand.name
+
+        .collapse{id: "collapseBrand-#{index}", "data-parent" => "#brandsAccordion", "aria-labelledby" => "brand-#{index}"}
+          .card-body
+            .row
+              .col-md-6
+                .mb-3
+                  %strong Unit:
+                  = brand_supplement.rainbow_vital_unit.name
+            .mb-3
+              %strong Vitamin(s):
+              %ul
+                - brand_supplement.brand_supplement_vitamins.each do |brand_supplement_vitamin|
+                  %lib.draggable
+                    = "#{brand_supplement_vitamin.rainbow_vital_vitamin.name} (#{brand_supplement_vitamin.dosage})"
+  .card-footer
+    = link_to 'Back', supplements_path, class: 'btn btn-secondary'

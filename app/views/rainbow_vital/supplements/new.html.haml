@@ -1,0 +1,35 @@
+%h1 Add New Supplement
+
+= form_with model: @supplement, local: true, html: { class: 'needs-validation', novalidate: true } do |f|
+  .row
+    .col-md-6
+      .mb-3
+        = f.label :supplement_name, class: 'form-label'
+        = f.text_field :name, class: 'form-control', placeholder: 'Supplement Name', required: true
+        .invalid-feedback
+          Please enter a supplement name.
+
+  .actions
+    = f.submit 'Add Supplement', class: 'btn btn-primary'
+
+:javascript
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()

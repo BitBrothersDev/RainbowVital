@@ -1,0 +1,22 @@
+.container
+  %h1.mb-4 Supplements
+
+  = link_to 'New Supplement', new_supplement_path, class: 'btn btn-primary mb-3'
+
+  %table.table
+    %thead
+      %tr
+        %th Name
+        -# %th Description
+        -# %th Amount
+        %th Actions
+    %tbody
+      - @supplements.each do |supplement|
+        %tr
+          %td= supplement.name
+          -# %td= supplement.description
+          -# %td= supplement.amount
+          %td
+            = link_to 'Show', supplement, class: 'btn btn-info btn-sm'
+            = link_to 'Edit', edit_supplement_path(supplement), class: 'btn btn-warning btn-sm'
+            = link_to 'Delete', supplement, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
