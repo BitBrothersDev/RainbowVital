@@ -1,0 +1,35 @@
+%h1 Ten Day Supplement Plan Items
+
+- (@start_date..@end_date).each do |date|
+  %h3= date.strftime('%d.%m.%Y')
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Time
+        %th Supplement Plan
+        %th Supplement
+        %th Dosage
+        %th Frequency
+        %th Taken
+    %tbody
+      - @supplement_plan_items.each do |item|
+        - if item.occurs_on?(date)
+          - item.times.each do |time|
+            %tr
+              %td= time
+              %td= item.supplement_plan.title
+              %td= item.supplement.name
+              %td= item.dosage
+              %td= item.frequency
+              %td
+                - time_in_seconds = Time.parse(time).seconds_since_midnight
+                - taken_at = date.to_time + time_in_seconds
+                - if item.supplement_logs.where(taken_at: taken_at.beginning_of_hour..taken_at.end_of_hour).exists?
+                  Taken
+                - else
+                  = form_with url: supplement_logs_path, method: :post, local: true do |form|
+                    = form.hidden_field :supplement_plan_item_id, value: item.id, name: 'supplement_plan_item_id'
+                    = form.hidden_field :taken_at, value: taken_at, name: 'taken_at'
+                    = form.submit 'Mark as taken', class: 'btn btn-primary btn-sm'
+
+= link_to 'Back', supplement_plans_path, class: 'btn btn-primary'

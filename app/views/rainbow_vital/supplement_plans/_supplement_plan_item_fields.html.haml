@@ -1,0 +1,22 @@
+.form-row.supplement-plan-item-fields
+  .row
+    .form-group.col-md-3
+      = item_form.label :rainbow_vital_supplement_id, 'Supplement'
+      = item_form.collection_select :rainbow_vital_supplement_id, RainbowVital::Supplement.all, :id, :name, {}, { class: 'form-control' }
+    .form-group.col-md-3
+      = item_form.label :dosage
+      = item_form.text_field :dosage, class: 'form-control'
+    .form-group.col-md-3
+      = item_form.label :rainbow_vital_unit_id, 'Unit'
+      = item_form.collection_select :rainbow_vital_unit_id, RainbowVital::Unit.all, :id, :name, {}, { class: 'form-control' }
+    .form-group.col-md-3
+      = item_form.label :frequency
+      = item_form.number_field :frequency, class: 'form-control'
+  .row
+    .form-group.col-md-12
+      = item_form.label :times, 'Times (e.g., 10:00,14:00,22:00)'
+      = item_form.text_field :times, class: 'form-control'
+  .row
+    .col-md-12
+      = item_form.hidden_field :_destroy
+      = link_to 'Remove', '#', class: 'remove-fields btn btn-danger btn-sm'

@@ -1,0 +1,47 @@
+= form_with(model: supplement_plan, local: true) do |form|
+  - if supplement_plan.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(supplement_plan.errors.count, "error")} prohibited this supplement_plan from being saved:"
+      %ul
+        - supplement_plan.errors.full_messages.each do |message|
+          %li= message
+
+  .form-group
+    = form.label :title
+    = form.text_field :title, class: 'form-control'
+
+  %h3 Supplements
+  #supplement-fields
+    = form.fields_for :supplement_plan_items do |item_form|
+      = render 'supplement_plan_item_fields', item_form: item_form
+  .form-group
+    = link_to_add_fields 'Add Supplement', form, :supplement_plan_items, '#supplement-fields', 'supplement_plan_item_fields'
+
+  .form-group
+    = form.submit class: 'btn btn-primary'
+
+
+:javascript
+  document.addEventListener('DOMContentLoaded', () => {
+    debugger
+    const addFields = document.querySelectorAll('.add-fields');
+    const removeFields = document.querySelectorAll('.remove-fields');
+
+    addFields.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const target = document.querySelector(button.dataset.target);
+        const fields = button.dataset.fields.replace(/new_supplement_plan_item/g, new Date().getTime());
+        target.insertAdjacentHTML('beforeend', fields);
+      });
+    });
+
+    removeFields.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const field = button.closest('.supplement-plan-item-fields');
+        field.querySelector('input[name*="_destroy"]').value = '1';
+        field.style.display = 'none';
+      });
+    });
+  });

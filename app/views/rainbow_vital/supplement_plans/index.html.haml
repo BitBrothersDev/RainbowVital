@@ -1,0 +1,18 @@
+%h1 Supplement Plans
+
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Title
+        %th Actions
+    %tbody
+      - @supplement_plans.each do |supplement_plan|
+        %tr
+          %td= supplement_plan.title
+          %td
+            = link_to 'Show', supplement_plan, class: 'btn btn-primary btn-sm'
+            = link_to 'Edit', edit_supplement_plan_path(supplement_plan), class: 'btn btn-secondary btn-sm'
+            = link_to 'Destroy', supplement_plan, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+
+= link_to 'New Supplement Plan', new_supplement_plan_path, class: 'btn btn-primary'

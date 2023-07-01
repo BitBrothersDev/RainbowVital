@@ -8,8 +8,10 @@
   <%= stylesheet_link_tag    "rainbow_vital/application", media: "all" %>
 </head>
 <body>
-
-<%= yield %>
+<%= render 'layouts/rainbow_vital/shared/navbar' %>
+  <div class="container">
+    <%= yield %>
+  </div>
 
 </body>
 </html>

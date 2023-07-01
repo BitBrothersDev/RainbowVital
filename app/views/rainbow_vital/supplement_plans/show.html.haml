@@ -1,0 +1,37 @@
+%h1= @supplement_plan.title
+
+%h3 Supplements
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Supplement
+        %th Dosage
+        %th Frequency
+    %tbody
+      - @supplement_plan.supplement_plan_items.each do |item|
+        %tr
+          %td= item.supplement.name
+          %td= item.dosage
+          %td= item.frequency
+
+%h3 Vitamins
+.table-responsive
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Supplement
+        %th Vitamin
+        %th Dosage
+        %th Unit
+    %tbody
+      - @supplement_plan.supplement_plan_items.each do |item|
+        - item.supplement.supplement_vitamins.each do |vitamin|
+          %tr
+            %td= item.supplement.name
+            %td= vitamin.vitamin.name
+            %td= vitamin.dosage
+            %td= vitamin.unit.name
+
+= link_to 'Edit', edit_supplement_plan_path(@supplement_plan), class: 'btn btn-secondary'
+= link_to 'Back', supplement_plans_path, class: 'btn btn-primary'
