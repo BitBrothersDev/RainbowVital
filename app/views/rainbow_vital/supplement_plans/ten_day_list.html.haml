@@ -14,7 +14,7 @@
     %tbody
       - @supplement_plan_items.each do |item|
         - if item.occurs_on?(date)
-          - item.times.each do |time|
+          - item.times.flatten.each do |time|
             %tr
               %td= time
               %td= item.supplement_plan.title

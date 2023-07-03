@@ -1,7 +1,8 @@
 module RainbowVital
   class SupplementPlan < ApplicationRecord
     belongs_to :user
-    has_many :supplement_plan_items, class_name: 'RainbowVital::SupplementPlanItem', foreign_key: 'rainbow_vital_supplement_plan_id'
+    has_many :supplement_plan_items, class_name: 'RainbowVital::SupplementPlanItem',
+             foreign_key: 'rainbow_vital_supplement_plan_id'
     accepts_nested_attributes_for :supplement_plan_items, allow_destroy: true
 
     def supplement_due?(supplement_plan_item)
